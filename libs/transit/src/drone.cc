@@ -4,11 +4,10 @@
 #include "AstarStrategy.h"
 #include "DijkstraStrategy.h"
 #include "DfsStrategy.h"
-#include "SpinDecorator.h"
 #include <cmath>
 #include <limits>
 
-Drone::Drone(JsonObject obj) : details(obj) { 
+Drone::Drone(JsonObject obj) : details(obj) {
     JsonArray pos(obj["position"]);
     position = {pos[0], pos[1], pos[2]};
 
@@ -46,13 +45,10 @@ void Drone::GetNearestEntity(std::vector<IEntity*> scheduler) {
             toTargetDesStrategy = new Beeline(nearestEntity->GetPosition(), nearestEntity->GetDestination());
         } else if (targetStrategyName.compare("astar") == 0){
             toTargetDesStrategy = new AstarStrategy(nearestEntity->GetPosition(), nearestEntity->GetDestination(), graph);
-            toTargetDesStrategy = new SpinDecorator(toTargetDesStrategy); // add decorator
         } else if (targetStrategyName.compare("dfs") == 0){
             toTargetDesStrategy = new DfsStrategy(nearestEntity->GetPosition(), nearestEntity->GetDestination(), graph);
-            toTargetDesStrategy = new SpinDecorator(toTargetDesStrategy); // add decorator
         } else if (targetStrategyName.compare("dijkstra") == 0){
             toTargetDesStrategy = new DijkstraStrategy(nearestEntity->GetPosition(), nearestEntity->GetDestination(), graph);
-            toTargetDesStrategy = new SpinDecorator(toTargetDesStrategy); // add decorator
         } else {
             // If none of the strategy name matched, use beeline as default.
             toTargetDesStrategy = new Beeline(nearestEntity->GetPosition(), nearestEntity->GetDestination());
