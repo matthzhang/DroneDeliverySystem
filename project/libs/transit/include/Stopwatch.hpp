@@ -29,7 +29,7 @@ public:
         return ticks<fmt>(last_r, t);
     }
 
-    template<TimeFormat fmt = TimeFormat::MILLISECONDS>
+    template<TimeFormat fmt = TimeFormat::SECONDS>
     std::uint64_t elapsed(){
         const auto end_time = std::chrono::high_resolution_clock::now();
         return ticks<fmt>(start_time, end_time);

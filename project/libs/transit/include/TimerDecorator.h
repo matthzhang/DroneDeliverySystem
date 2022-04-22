@@ -16,8 +16,7 @@ class TimerDecorator: public IStrategy {
 
         virtual void Move(IEntity* entity, double dt);
         virtual bool IsCompleted();
-        virtual void start_timer();
-        virtual float stop_timer();
+
     protected:
         IStrategy *strategy;
         Stopwatch sw;

@@ -1,17 +1,12 @@
 #include "TimerDecorator.h"
-
-void TimerDecorator::start_timer(){
-    sw.start();
-}
-
-float TimerDecorator::stop_timer(){
-    timeElapsed = sw.elapsed();
-    //timeElapsed = sw.elapsed();
-    return timeElapsed;
-}
+#include <iostream>
 
 bool TimerDecorator::IsCompleted(){
-    return strategy->IsCompleted();
+    bool val = strategy->IsCompleted();
+    if (val){
+        std::cout << sw.elapsed() << std::endl;
+    }
+    return val;
 }
 
 void TimerDecorator::Move(IEntity* entity, double dt){
