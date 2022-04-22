@@ -1,35 +1,39 @@
-FROM ubuntu:18.04 as builder
+FROM ubuntu:18.04 as env
+
+RUN groupdel dialout
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
-  build-essential \
-  libssl-dev \
-  zlib1g-dev \
-  doxygen \
-  graphviz \
-  libc6-dbg \
-  git \
-  libopencv-dev \
-  libomp-dev \
-  cmake \
-  wget
+    build-essential \
+    gdb \
+    libssl-dev \
+    zlib1g-dev \
+    dos2unix \
+    doxygen \
+    graphviz \
+    libc6-dbg \
+    valgrind \
+    git \
+    libomp-dev \
+    cmake \
+    wget
 
+ARG USER_ID
+ARG GROUP_ID
+ARG DEP_DIR
+ARG SRC_DIR
 
-ENV DEP_DIR=/project/grades/Fall-2021/csci3081/dependencies
-ENV SRC_DIR=/env
+ENV DEP_DIR=/${DEP_DIR}
+RUN echo ${DEP_DIR}
+ENV SRC_DIR=/${SRC_DIR}
+RUN echo ${SRC_DIR}
+
+RUN addgroup --gid $GROUP_ID user
+RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
 
 RUN mkdir -p ${SRC_DIR}
 RUN mkdir -p ${DEP_DIR}
-WORKDIR ${SRC_DIR}
-RUN mkdir imageio
-WORKDIR ${SRC_DIR}/imageio
-RUN wget https://github.com/fiveman1/imageio/raw/master/imageio.tar.gz
-RUN tar xzvf imageio.tar.gz
-RUN cp -R include ${DEP_DIR}
-RUN mkdir ${DEP_DIR}/lib
-RUN mv lib/libimageio-docker.so lib/libimageio.so
-RUN cp lib/libimageio.so ${DEP_DIR}/lib
 
 WORKDIR ${SRC_DIR}
 RUN git clone https://github.com/dtorban/CppWebServer.git CppWebServer
@@ -41,58 +45,12 @@ RUN cmake -DCMAKE_INSTALL_PREFIX=${DEP_DIR} ..
 RUN make install
 WORKDIR ${SRC_DIR}/gtest/build
 RUN cmake -DCMAKE_INSTALL_PREFIX=${DEP_DIR} ..
-RUN make install 
-
-
-RUN echo OPENCV_INCLUDES=`pkg-config --cflags opencv` >> ${DEP_DIR}/env
-RUN echo OPENCV_LIBS=`pkg-config --libs opencv` >> ${DEP_DIR}/env
+RUN make install
 
 RUN find ${DEP_DIR} -type d -exec chmod 775 {} \;
 RUN find ${DEP_DIR} -type f -exec chmod 664 {} \;
 
-# build and run simulation 
-RUN mkdir -p /home/user/repo
-COPY . /home/user/repo/project
-WORKDIR /home/user/repo/project
+RUN mkdir -p /home/user
+WORKDIR /home/user/repo
 
-RUN git init .
-RUN mkdir -p config
-RUN echo DEP_DIR=${DEP_DIR} > config/settings
-
-# build the project
-RUN make 
-
-# uncomment if you have docs
-# WORKDIR /home/user/repo/project/docs
-# RUN doxygen Doxyfile
-
-# image for the project
-FROM ubuntu:18.04 as sim
-
-# uncomment the following commands if you are using opencv
-# ENV DEBIAN_FRONTEND=noninteractive
-
-# RUN apt-get update && apt-get install -y \
-#   libopencv-dev
-
-RUN mkdir -p /sim/bin
-RUN mkdir -p /sim/lib
-
-ENV DEP_DIR=/project/grades/Fall-2021/csci3081/dependencies
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/sim/lib
-
-COPY --from=builder /usr/lib/x86_64-linux-gnu/libssl.so.1.1 /usr/lib/x86_64-linux-gnu/libssl.so.1.1
-COPY --from=builder /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1
-COPY --from=builder ${DEP_DIR}/lib/libimageio.so /sim/lib/
-COPY --from=builder /home/user/repo/project/web /sim/web
-COPY --from=builder /home/user/repo/project/data /sim/data
-# uncomment if you have docs
-# COPY --from=builder /home/user/repo/project/docs/html /sim/web/docs
-COPY --from=builder /home/user/repo/project/build/web-app /sim/bin
-COPY --from=builder /home/user/repo/project/build/test-app /sim/bin
-
-
-EXPOSE 8081
-WORKDIR /sim
-CMD while true; do /sim/bin/web-app 8081 /sim/web/ ; done
-
+USER user

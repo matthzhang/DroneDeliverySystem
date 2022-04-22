@@ -1,0 +1,24 @@
+<html>
+	<head>
+		<title>3081 Project</title>
+		<script src="js/jquery-3.5.1.min.js"></script>
+		<script src="js/WSApi.js"></script>
+	</head>
+	<body>
+		<input type="text" id="message"><input type="button" value="Send" id="send">
+		<p id="response"></p>
+		</div>
+		<script>			
+			// Web Sockets API for communication with the backend
+			let api = new WSApi();
+			
+			$(document).ready(function() {
+				$("#send").on("click", function(e) {
+					api.sendCommand("ping", { msg: $("#message").val() }).then(function(data) {
+						$("#response").html(JSON.stringify(data.response));
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
