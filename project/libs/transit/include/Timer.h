@@ -4,16 +4,11 @@
 #include <vector>
 #include "TimerDecorator.h"
 #include "IStrategy.h"
-
+#include "Stopwatch.hpp"
 class Timer: public TimerDecorator {
     public:
-        Timer(IStrategy *strategy_) {
-            strategy = strategy_;
-            timeElapsed = 0;
-            sw = Stopwatch();
-        }
-        void start_timer(Stopwatch sw);
-        float stop_timer(Stopwatch sw);
+        void start_timer();
+        float stop_timer();
 }; 
 
 #endif

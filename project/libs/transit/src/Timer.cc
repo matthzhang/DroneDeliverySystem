@@ -1,10 +1,11 @@
 #include "Timer.h"
 
-void Timer::start_timer(Stopwatch sw){
+void Timer::start_timer(){
     sw.start();
 }
 
-int Timer::stop_timer(Stopwatch sw){
+float Timer::stop_timer(){
     timeElapsed = sw.elapsed();
-    return timeElapsed
+    //timeElapsed = sw.elapsed();
+    return timeElapsed;
 }

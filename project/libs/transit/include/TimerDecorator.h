@@ -7,6 +7,7 @@
 
 class TimerDecorator: public IStrategy {
     public:
+    
         TimerDecorator(IStrategy *strategy_) {
             strategy = strategy_;
             timeElapsed = 0;
@@ -15,8 +16,8 @@ class TimerDecorator: public IStrategy {
 
         void Move(IEntity* entity, double dt){}
         bool IsCompleted(){}
-        virtual void start_timer(Stopwatch sw);
-        virtual float stop_timer(Stopwatch sw);
+        virtual void start_timer();
+        virtual float stop_timer();
     protected:
         IStrategy *strategy;
         Stopwatch sw;
