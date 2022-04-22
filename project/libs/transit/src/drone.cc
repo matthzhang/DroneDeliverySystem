@@ -68,6 +68,7 @@ void Drone::Update(double dt, std::vector<IEntity*> scheduler) {
     if (toTargetPosStrategy) {  // Move drone toward the entity's position
         toTargetPosStrategy->Move(this, dt);
         if(toTargetPosStrategy->IsCompleted()){
+            toTargetDesStrategy->Reset();
             delete toTargetPosStrategy;
             toTargetPosStrategy = NULL;
 
