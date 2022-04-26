@@ -13,6 +13,6 @@ void TimerDecorator::Move(IEntity* entity, double dt){
     strategy->Move(entity, dt);
 }
 
-void TimerDecorator::Reset(){
-    sw.start();
-}
+// void TimerDecorator::Reset(){
+//   sw.start();
+//}
