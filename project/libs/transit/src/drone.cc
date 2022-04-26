@@ -41,6 +41,7 @@ void Drone::GetNearestEntity(std::vector<IEntity*> scheduler) {
         available = false;                      // set this drone availability as false
         SetDestination(nearestEntity->GetPosition());
         toTargetPosStrategy = new Beeline(this->GetPosition(), nearestEntity->GetPosition());
+        toTargetPosStrategy = new TimerDecorator(toTargetPosStrategy);
         std::string targetStrategyName = nearestEntity->GetStrategyName();
         if(targetStrategyName.compare("beeline") == 0){
             toTargetDesStrategy = new Beeline(nearestEntity->GetPosition(), nearestEntity->GetDestination());
