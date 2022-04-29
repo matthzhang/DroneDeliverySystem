@@ -10,7 +10,7 @@ using std::ofstream;
 
 class TimerDecorator: public IStrategy {
     public:
-        ofstream f;
+        
         TimerDecorator(IStrategy *strategy_) {
             strategy = strategy_;
             timeElapsed = 0;
@@ -25,6 +25,7 @@ class TimerDecorator: public IStrategy {
         bool IsCompleted();
         stopwatch::Stopwatch sw;
     protected:
+        ofstream f;
         IStrategy *strategy;
         int timeElapsed;
 }; 

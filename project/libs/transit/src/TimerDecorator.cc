@@ -2,14 +2,16 @@
 using std::ofstream;
 using std::cout;
 
-bool TimerDecorator::IsCompleted() {}
+bool TimerDecorator::IsCompleted() {
+  bool val = strategy->IsCompleted();
+    if (val){
+         timeElapsed = sw.elapsed();
+         cout << timeElapsed << "\n";
+        f << timeElapsed <<"\n";
+    }
+    return val;
+}
 
 void TimerDecorator::Move(IEntity* entity, double dt) {
-  if (strategy->IsCompleted()) {
-    timeElapsed = sw.elapsed();
-    cout << timeElapsed << ", " << entity->GetStrategyName() << "\n";
-    f << timeElapsed << ", " << entity->GetStrategyName() << "\n";
-  } else {
     strategy->Move(entity, dt);
-  }
 }
