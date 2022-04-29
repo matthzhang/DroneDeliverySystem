@@ -4,24 +4,29 @@
 #include <vector>
 #include "IStrategy.h"
 #include "Stopwatch.hpp"
+#include <fstream>
+
+using std::ofstream;
 
 class TimerDecorator: public IStrategy {
     public:
-    
+        ofstream f;
         TimerDecorator(IStrategy *strategy_) {
             strategy = strategy_;
             timeElapsed = 0;
-            sw = Stopwatch();
+            sw = stopwatch::Stopwatch();
+            f.open("text.txt");
+        }
+        ~TimerDecorator(){
+            f.close();
         }
 
-        void Move(IEntity* entity, double dt){}
-        bool IsCompleted(){}
-        virtual void start_timer();
-        virtual float stop_timer();
+        void Move(IEntity* entity, double dt);
+        bool IsCompleted();
+        stopwatch::Stopwatch sw;
     protected:
         IStrategy *strategy;
-        Stopwatch sw;
-        float timeElapsed;
+        int timeElapsed;
 }; 
 
 #endif

@@ -4,6 +4,7 @@
 #include "AstarStrategy.h"
 #include "DijkstraStrategy.h"
 #include "DfsStrategy.h"
+#include "TimerDecorator.h"
 #include <cmath>
 #include <limits>
 
@@ -43,15 +44,20 @@ void Drone::GetNearestEntity(std::vector<IEntity*> scheduler) {
         std::string targetStrategyName = nearestEntity->GetStrategyName();
         if(targetStrategyName.compare("beeline") == 0){
             toTargetDesStrategy = new Beeline(nearestEntity->GetPosition(), nearestEntity->GetDestination());
+            toTargetDesStrategy = new TimerDecorator(toTargetDesStrategy);
         } else if (targetStrategyName.compare("astar") == 0){
             toTargetDesStrategy = new AstarStrategy(nearestEntity->GetPosition(), nearestEntity->GetDestination(), graph);
+            toTargetDesStrategy = new TimerDecorator(toTargetDesStrategy);
         } else if (targetStrategyName.compare("dfs") == 0){
             toTargetDesStrategy = new DfsStrategy(nearestEntity->GetPosition(), nearestEntity->GetDestination(), graph);
+            toTargetDesStrategy = new TimerDecorator(toTargetDesStrategy);
         } else if (targetStrategyName.compare("dijkstra") == 0){
             toTargetDesStrategy = new DijkstraStrategy(nearestEntity->GetPosition(), nearestEntity->GetDestination(), graph);
+            toTargetDesStrategy = new TimerDecorator(toTargetDesStrategy);
         } else {
             // If none of the strategy name matched, use beeline as default.
             toTargetDesStrategy = new Beeline(nearestEntity->GetPosition(), nearestEntity->GetDestination());
+            toTargetDesStrategy = new TimerDecorator(toTargetDesStrategy);
         }
     }
 }
@@ -65,6 +71,10 @@ void Drone::Update(double dt, std::vector<IEntity*> scheduler) {
         if(toTargetPosStrategy->IsCompleted()){
             delete toTargetPosStrategy;
             toTargetPosStrategy = NULL;
+            TimerDecorator* td;
+            td = (TimerDecorator*) toTargetDesStrategy;
+            td->sw.start();
+            //(TimerDeocrator*) toTargetDesStrategy->sw.start();
         }
     } else if (toTargetDesStrategy) { // Move drone and entity toward the entity's destination
         toTargetDesStrategy->Move(this, dt);
