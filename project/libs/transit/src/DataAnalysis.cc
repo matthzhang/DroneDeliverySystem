@@ -39,12 +39,11 @@ int main() {
     cout << "------------- DATA ANALYSIS --------------" << endl;
     double diff;
 
-    diff = stod(beeline)/stod(astar);
-
+    diff = stod(astar)/stod(beeline);
     cout << "BEELINE is " << diff << " times faster than ASTAR" << endl;
-    diff = stod(beeline)/stod(dfs);
+    diff = stod(dfs)/stod(beeline);
     cout << "BEELINE is " << diff << " times faster than DFS" << endl;
-    diff = stod(beeline)/stod(dijkstra);
+    diff = stod(dijkstra)/stod(beeline);
     cout << "BEELINE is " << diff << " times faster than DIJKSTRA" << endl;
     cout << "------------------------------------------" << endl;
 

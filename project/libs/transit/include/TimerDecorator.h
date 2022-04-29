@@ -15,10 +15,9 @@ class TimerDecorator: public IStrategy {
             strategy = strategy_;
             timeElapsed = 0;
             sw = stopwatch::Stopwatch();
-            f.open("text.txt");
+            f.open("data.txt", std::ios::app);
         }
         ~TimerDecorator(){
-            f.close();
         }
 
         void Move(IEntity* entity, double dt);
@@ -27,7 +26,7 @@ class TimerDecorator: public IStrategy {
     protected:
         ofstream f;
         IStrategy *strategy;
-        int timeElapsed;
+        float timeElapsed;
 }; 
 
 #endif

@@ -4,12 +4,14 @@ using std::cout;
 
 bool TimerDecorator::IsCompleted() {
   bool val = strategy->IsCompleted();
-    if (val){
-         timeElapsed = sw.elapsed();
-         cout << timeElapsed << "\n";
-        f << timeElapsed <<"\n";
-    }
-    return val;
+  if (val){
+    int temp = sw.elapsed();
+    timeElapsed = (temp - (temp %100)) / 1000.0;
+    cout << timeElapsed << "\n";
+    f << timeElapsed <<"\n";
+    f.close();
+  }
+  return val;
 }
 
 void TimerDecorator::Move(IEntity* entity, double dt) {
