@@ -1,13 +1,14 @@
 # hw4-3081
 
-Team Members Name and x500:
+**Team Members Name and x500:**
  
-Lynh Tran, tran0879
-Rohan Vij, vij00005
-Matthew Zhang, zach7342
-Saketh Atluri, atlur014
+Lynh Tran, tran0879  
+Rohan Vij, vij00005  
+Matthew Zhang, zach7342  
+Saketh Atluri, atlur014   
+
  
-Added Files and Paths to Added Files
+**Added Files and Paths to Added Files:**
  
 Stopwatch.hpp - project/libs/transit/include/Stopwatch.hpp
 TimerDecorator.h - project/libs/transit/include/TimerDecorator.h
@@ -19,7 +20,7 @@ Data.txt - project/data.txt
 
 
  
-Sprint Retrospective
+**Sprint Retrospective**
  
 What went well
  
