@@ -44,7 +44,7 @@ in the final days. We created a nice outline on the first day but never actually
 that didn't go well was we messed up pushing files once, which caused us to have to do extra work. After adding some small changes
 while coding our project, we forgot, as a group, to push that to the main branch. This caused us, during our next meeting, to find
 what we forgot to push and re-code it. In the grand scheme of things, it was a very minor error that didn't waste too much time, but
-it is something that didn't go well for us.
+it is something that didn't go well for us. 
  
  
 What we can do better next time
@@ -57,4 +57,5 @@ group debugging and trying to fix problems. We had a lot of questions on why thi
 around us to get help. Asking TA's questions would have sped our process up as a whole and would have allowed us to spend that saved
 time in different areas. A final thing that we could have done better is we could have had better communication about which branch we
 are working on. This caused some confusion and extra work to be done while we were coding. Better communication between us here would
-have helped a lot.
+have helped a lot. Also, unfortunately, Saketh wasn't able to make it to the final presentation. Ideally, next time, we would schedule
+a time for the presentation when we could all be there.
